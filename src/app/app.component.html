@@ -1,20 +1,135 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<h1>{{ title }} </h1>
+<p>{{ 1 + 1 }}</p>
+<span [hidden]="isHidden">Is Hidden?</span>
+<img bind-src= "heroImageUrl">
+<p>
+  <span><img [src]="heroImageUrl"></span>
+</p>
 
+<p><img src="{{heroImageUrl}}"> is the <i>interpolated</i> image.</p>
+<p><img [src]="heroImageUrl"> is the <i>property bound</i> image.</p>
+
+<p><span>"{{title}}" is the <i>interpolated</i> title.</span></p>
+<p>"<span [innerHTML]="title"></span>" is the <i>property bound</i> title.</p>
+
+<!--
+  Angular generates warnings for these two lines as it sanitizes them
+  WARNING: sanitizing HTML stripped some content (see http://g.co/ng/security#xss).
+ -->
+ <p><span>"{{evilTitle}}" is the <i>interpolated</i> evil title.</span></p>
+ <p>"<span [innerHTML]="evilTitle"></span>" is the <i>property bound</i> evil title.</p>
+
+ <table border=1>
+  <!--  expression calculates colspan=2 -->
+  <tr><td [attr.colspan]="1 + 1">One-Two</td></tr>
+
+  <!-- ERROR: There is no `colspan` property to set!
+    <tr><td colspan="{{1 + 1}}">Three-Four</td></tr>
+  -->
+
+  <tr><td>Five</td><td>Six</td></tr>
+</table>
+
+<br /><br />
+<!-- create and set an aria attribute for assistive technology -->
+<button [attr.aria-label]="actionName">{{actionName}} with Aria</button>
+<br /><br />
+
+<button [style.color]="isSpecial ? 'red': 'green'">Red</button>
+<button [style.background-color]="canSave ? 'cyan': 'grey'" >Save</button>
+
+<br /><br />
+<button [style.font-size.em]="isSpecial ? 3 : 1" >Big</button>
+<button [style.font-size.%]="!isSpecial ? 150 : 50" >Small</button>
+
+<br /><br />
+<button (click)="onSave()">Save</button>
+<span> {{ onSaveClickEvent }}</span>
+
+<br /><br />
+<div>
+  <img src="{{heroImageUrl}}">
+  <span [style.text-decoration]="lineThrough">
+    {{prefix}} {{heroName}}
+  </span>
+  <button (click)="delete()">Delete</button>
+</div>
+
+<br /><br />
+<div>
+  <button (click)="dec()" title="smaller">-</button>
+  <button (click)="inc()" title="bigger">+</button>
+  <label [style.font-size.px]="size">FontSize: {{size}}px</label>
+</div>
+
+<br /><br />
+<input #phone placeholder="phone number">
+<br />
+<button (click)="callPhone(phone.value)">Call</button>
+{{ myEntryPhone }}
+
+<br /><br />
+<!--
+<form (ngSubmit)="onSubmit(heroForm)" #heroForm="ngForm">
+  <div class="form-group">
+    <label for="name">Name
+      <input class="form-control" name="name" required [(ngModel)]="hero.name">
+    </label>
+  </div>
+  <button type="submit" [disabled]="!heroForm.form.valid">Submit</button>
+</form>
+<div [hidden]="!heroForm.form.valid">
+  {{submitMessage}}
+</div>
+-->
+
+<br /><br />
+<input ref-fax placeholder="fax number">
+<button (click)="callFax(fax.value)">Fax</button>
+
+<br /><br />
+<div>
+  Title through uppercase pipe: {{ title | uppercase }}
+</div>
+
+<!-- Pipe chaining: convert title to uppercase, then to lowercase -->
+<div>
+  Title through a pipe chain:
+  {{ title | uppercase | lowercase }}
+</div>
+<br />
+<!-- pipe with configuration argument => "February 25, 1979" -->
+<!-- <div>Birthdate: {{currentHero?.birthdate | date:'longDate'}}</div> -->
+<div>Birthdate: {{ currentHeroBirthdate | date: 'shortDate' }}</div>
+<br />
+<div>Birthdate: {{ currentHeroBirthdate | date: 'longDate' }}</div>
+<br /><br />
+<div>{{ currentHero | json }}</div>
+
+<br /><br />
+<div>The current hero's name is {{currentHero?.name}}</div>
+
+<br /><br />
+<div *ngIf="nullHero">The null hero's name is {{nullHero.name}}</div>
+
+<br /><br />
+The null hero's name is {{nullHero && nullHero.name}}
+
+<br /><br />
+<!--No hero, no text -->
+<div *ngIf="hero">
+  The hero's name is {{hero!.name}}
+</div>
+<br /><br />
+<!-- Accessing an undeclared member -->
+<div>
+  Undeclared members is {{$any(this).member}}
+</div>
+<!-- Accessing an undeclared member -->
+<div>
+  The hero's marker is {{$any(hero).marker}}
+</div>
+
+
+<br /><br />
